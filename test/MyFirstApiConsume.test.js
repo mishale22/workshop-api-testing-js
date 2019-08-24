@@ -43,7 +43,7 @@ describe('First Api Tests', () => {
         const response = await agent.put('https://httpbin.org/put').send(requestBody);
    
         expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.args).to.eql(requestBody);
+        expect(response.body.json).to.eql(requestBody);
     });
 
     it('Consume PATCH service', async () => {
@@ -55,13 +55,14 @@ describe('First Api Tests', () => {
         const response = await agent.patch('https://httpbin.org/patch').send(requestBody);
         
         expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.args).to.eql(requestBody);
+        expect(response.body.json).to.eql(requestBody);
     });
 
     it('Consume HEAD service', async () => {
 
-        const response = await agent.get('https://httpbin.org/headers');
-        //console.log(response)
+        const response = await agent.head('https://httpbin.org/headers');
+
         expect(response.status).to.equal(statusCode.OK);
+        expect(response.body).to.be.empty;
     });
 });
