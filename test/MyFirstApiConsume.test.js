@@ -2,67 +2,64 @@ const agent = require('superagent');
 const statusCode = require('http-status-codes');
 const chai = require('chai');
 
-const expect = chai.expect;
+const { expect } = chai;
 
 describe('First Api Tests', () => {
-    it('Consume GET Service', async () => {
-        const response = await agent.get('https://httpbin.org/ip');
-      
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body).to.have.property('origin');
-      });
+  it('Consume GET Service', async () => {
+    const response = await agent.get('https://httpbin.org/ip');
 
-    it('Consume GET Service with query parameters', async () => {
-        const query = {
-          name: 'John',
-          age: '31',
-          city: 'New York'
-        };
-      
-        const response = await agent.get('https://httpbin.org/get').query(query);
-      
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.args).to.eql(query);
-      });
-      
-    it('Consume DELETE service', async () => {
-        const response = await agent.del('https://httpbin.org/delete');
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body).to.have.property('origin');
+  });
 
-        //console.log(response)
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.url).to.equal("https://httpbin.org/delete");
-    });
+  it('Consume GET Service with query parameters', async () => {
+    const query = {
+      name: 'John',
+      age: '31',
+      city: 'New York'
+    };
 
-    it('Consume PUT service', async () => {
+    const response = await agent.get('https://httpbin.org/get').query(query);
 
-        const requestBody = {
-            name: "John",
-            city: "LA"
-        }
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body.args).to.eql(query);
+  });
 
-        const response = await agent.put('https://httpbin.org/put').send(requestBody);
-   
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.json).to.eql(requestBody);
-    });
+  it('Consume DELETE service', async () => {
+    const response = await agent.del('https://httpbin.org/delete');
 
-    it('Consume PATCH service', async () => {
+    // console.log(response)
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body.url).to.equal('https://httpbin.org/delete');
+  });
 
-        const requestBody = {
-            name: "John"
-        }
+  it('Consume PUT service', async () => {
+    const requestBody = {
+      name: 'John',
+      city: 'LA'
+    };
 
-        const response = await agent.patch('https://httpbin.org/patch').send(requestBody);
-        
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body.json).to.eql(requestBody);
-    });
+    const response = await agent.put('https://httpbin.org/put').send(requestBody);
 
-    it('Consume HEAD service', async () => {
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body.json).to.eql(requestBody);
+  });
 
-        const response = await agent.head('https://httpbin.org/headers');
+  it('Consume PATCH service', async () => {
+    const requestBody = {
+      name: 'John'
+    };
 
-        expect(response.status).to.equal(statusCode.OK);
-        expect(response.body).to.be.empty;
-    });
+    const response = await agent.patch('https://httpbin.org/patch').send(requestBody);
+
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body.json).to.eql(requestBody);
+  });
+
+  it('Consume HEAD service', async () => {
+    const response = await agent.head('https://httpbin.org/headers');
+
+    expect(response.status).to.equal(statusCode.OK);
+    expect(response.body).to.be.empty;
+  });
 });
